@@ -1,0 +1,99 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .modal {
+            text-align: center;
+            padding: 0 !important;
+        }
+
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    </br>
+    </br>
+    </br>
+    <div class="container row">
+        <div class=" col-md-3">
+            <div class="container"><h2>1-OLUŞTUR</h2></div>
+            <ul>
+                <li>Ethereum hesabı yaratabilirsiniz.</li>
+                <li><a asp-area="" asp-controller="Home" class="btn btn-default" asp-action="AccountCreate">Başlayın</a></li>
+            </ul>
+        </div>
+        <div class=" col-md-3">
+            <div class="container"><h2>2-YÜKLE</h2></div>
+            <ul>
+                <li>Blockchain üzerine akıllı sözleşme yükleyebilirsiniz.</li>
+                <li><a asp-area="" asp-controller="Home" class="btn btn-default" asp-action="DeployContract">Başlayın</a></li>
+            </ul>
+        </div>
+        <div class=" col-md-3">
+            <div class="container">
+                <h2>3-GÖNDER</h2>
+            </div>
+            <ul>
+                <li>Blockchain üzerine akıllı sözleşme ile veri yollayabilirsiniz.</li>
+                <li>
+
+                    <a href="" class="btn btn-default" data-toggle="modal" data-target="#modalLogin">Başlayın</a>
+
+                </li>
+            </ul>
+        </div>
+        <div class=" col-md-3">
+            <div class="container">
+                <h2>4-GERİ AL</h2>
+            </div>
+            <ul>
+                <li>Blockchain üzerinden verilerinizi akıllı sözleşme ile veri alabilirsiniz.</li>
+                <li><a asp-area="" asp-controller="Home" class="btn btn-default" asp-action="GetHash">Başlayın</a></li>
+            </ul>
+        </div>
+    </div>
+    <br />
+    <br />
+
+    <div class="container center-block">
+        <br />
+        <br />
+        <div class="modal fade" style="align-content:center" id="modalLogin">
+            <br />
+            <br />
+            <br />
+            <form class="md-form" method="post" asp-action="Identity" asp-controller="Home" enctype="multipart/form-data">
+                <br />
+                <input type="text" class="input-lg" placeholder="isim" name="name" />
+                <br />
+                <br />
+                <input type="text" class="input-lg" placeholder="soyisim" name="surname" />
+                <br />
+                <br />
+                <div class="btn btn-primary btn-sm ">
+                    <span class="input-lg">Kimlik Bilgisi Seçiniz</span>
+                    <input type="file" name="file" multiple>
+                </div>
+                <br />
+                <br />
+                <input type="submit" class="btn btn-danger" value="Gönder" />
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+

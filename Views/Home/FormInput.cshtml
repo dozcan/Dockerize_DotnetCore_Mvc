@@ -1,0 +1,29 @@
+﻿<div class="modal fade" id="modalLogin">
+<div class="form-group">
+    <div class="container">
+        <h2>Blockchain'e Gönderilecek Veri</h2>
+        <form method="post" asp-action="Identity" asp-controller="Home" enctype="multipart/form-data">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="isim" name="name" />
+            </div>
+            <br />
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                </div>
+                <input type="text" class="form-control" placeholder="soyisim" name="surname" />
+            </div>
+            <br />
+           
+              
+                <input type="file" name="file"/>
+           
+            <br />
+            <input type="submit" class="btn btn-danger" value="Gönder" />
+        </form>
+    </div>
+</div>
+</div>
+
+<div class="text-center">
+    <a href="" class="btn btn-block" data-toggle="modal" data-target="#modalLogin">launch</a>
+</div>
