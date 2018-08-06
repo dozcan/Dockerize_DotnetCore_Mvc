@@ -28,7 +28,7 @@ namespace WebApplication3.Controllers
             var client = new HttpClient();
             HttpResponseMessage Task;
 
-            Task = await client.GetAsync("http://34.212.29.21:6000/AccountCreate");
+            Task = await client.GetAsync("http://localhost:6000/AccountCreate");
             var content = await Task.Content.ReadAsStringAsync();
 
             var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<AccountCreateModelResponse>(content);
@@ -44,7 +44,7 @@ namespace WebApplication3.Controllers
             var client = new HttpClient();
             HttpResponseMessage Task;
 
-            Task = await client.GetAsync("http://34.212.29.21:6000/DeployContract");
+            Task = await client.GetAsync("http://localhost:6000/DeployContract");
             var content = await Task.Content.ReadAsStringAsync();
 
             var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseDeployContractModel>(content);
@@ -102,7 +102,7 @@ namespace WebApplication3.Controllers
 
             var client = new HttpClient();
 
-            var Task = await client.PostAsync("http://34.212.29.21:6000/Identity", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
+            var Task = await client.PostAsync("http://localhost:6000/Identity", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
 
             var content = await Task.Content.ReadAsStringAsync();
 
@@ -184,7 +184,7 @@ namespace WebApplication3.Controllers
 
             string identityToBlockchain = Newtonsoft.Json.JsonConvert.SerializeObject(RequestHashGet);
             var client = new HttpClient();
-            var Task = await client.PostAsync("http://34.212.29.21:6000/HashGet", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
+            var Task = await client.PostAsync("http://localhost:6000/HashGet", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
 
             var content = await Task.Content.ReadAsStringAsync();
             var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseHashGetModel>(content);
