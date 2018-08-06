@@ -10,33 +10,36 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <address><strong><h2>Blockchain üzerindeki hash değerleriniz...</h2></strong></address>
-</div>
+    <br />
+    <br />
 
+    <div class="container">
+        <address><strong><h2>Blockchain üzerindeki hash değerleriniz...</h2></strong></address>
+    </div>
 
-<div class="container">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Veri Hash Değeri </th>
-                <th>Transaction Hash Değeri</th>
-                <th>Akıllı Sözleşme Adresi</th>
-                <th>Sorgulayın</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var hash in @Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>@hash.hashofBlockchainData</td>
-                    <td>@hash.transactionHash</td>
-                    <td>@hash.contractAddress</td>
-                    <td>
-                        <a href='@Url.Action("GetBlockChainData", "Home", new { contractAddress = @hash.contractAddress ,hashofBlockchainData = @hash.hashofBlockchainData})'>Getir</a>
-                    </td>
+                    <th>Veri Hash Değeri </th>
+                    <th>Transaction Hash Değeri</th>
+                    <th>Akıllı Sözleşme Adresi</th>
+                    <th>Sorgulayın</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div></body></html>
+            </thead>
+            <tbody>
+                @foreach (var hash in @Model)
+                {
+                    <tr>
+                        <td>@hash.hashofBlockchainData</td>
+                        <td>@hash.transactionHash</td>
+                        <td>@hash.contractAddress</td>
+                        <td>
+                            <a href='@Url.Action("GetBlockChainData", "Home", new { contractAddress = @hash.contractAddress ,hashofBlockchainData = @hash.hashofBlockchainData})'>Getir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+</body></html>
