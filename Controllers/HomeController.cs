@@ -14,11 +14,19 @@ using WebApplication3.Models;
 using System.IO;
 using System.Drawing;
 using System.IO.Compression;
+using Microsoft.Extensions.Options;
 
 namespace WebApplication3.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly AppSettings _appSettings;
+        public string url; 
+        public HomeController(IOptions<AppSettings> appSettings)
+        {
+            _appSettings = appSettings.Value;
+            url = "http://" + _appSettings.node_api + ":" + _appSettings.node_port + "/";
+        }
         public IActionResult Index()
         {
             return View();
@@ -28,7 +36,7 @@ namespace WebApplication3.Controllers
             var client = new HttpClient();
             HttpResponseMessage Task;
 
-            Task = await client.GetAsync("http://localhost:6000/AccountCreate");
+            Task = await client.GetAsync(url + "AccountCreate");
             var content = await Task.Content.ReadAsStringAsync();
 
             var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<AccountCreateModelResponse>(content);
@@ -44,7 +52,7 @@ namespace WebApplication3.Controllers
             var client = new HttpClient();
             HttpResponseMessage Task;
 
-            Task = await client.GetAsync("http://localhost:6000/DeployContract");
+            Task = await client.GetAsync(url + "DeployContract");
             var content = await Task.Content.ReadAsStringAsync();
 
             var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseDeployContractModel>(content);
@@ -102,7 +110,7 @@ namespace WebApplication3.Controllers
 
             var client = new HttpClient();
 
-            var Task = await client.PostAsync("http://localhost:6000/Identity", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
+            var Task = await client.PostAsync(url + "identity", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
 
             var content = await Task.Content.ReadAsStringAsync();
 
@@ -184,7 +192,7 @@ namespace WebApplication3.Controllers
 
             string identityToBlockchain = Newtonsoft.Json.JsonConvert.SerializeObject(RequestHashGet);
             var client = new HttpClient();
-            var Task = await client.PostAsync("http://localhost:6000/HashGet", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
+            var Task = await client.PostAsync(url + "HashGet", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
 
             var content = await Task.Content.ReadAsStringAsync();
             var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseHashGetModel>(content);
