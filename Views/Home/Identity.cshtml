@@ -10,27 +10,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <address><strong><h2>Veriniz Blockchain üzerine gönderilmiştir</h2></strong></address>
-</div>
+    <div class="container">
+        <address><strong><h2>Veriniz Blockchain üzerine gönderilmiştir</h2></strong></address>
+    </div>
 
 
-<div class="container">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Ethereum Hesabı </th>
-                <th>Veri Hash Değeri</th>
-                <th>İşlem Hash Değeri</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ethereum Hesabı </th>
+                    <th>Veri Hash Değeri</th>
+                    <th>İşlem Hash Değeri</th>
+                </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td>@Model.Account</td>
                     <td>@Model.Data_hash</td>
                     <td>@Model.Transaction_hash</td>
                 </tr>
-            
-        </tbody>
-    </table>
-</div></body></html>
+
+            </tbody>
+        </table>
+    </div>
+</body></html>
