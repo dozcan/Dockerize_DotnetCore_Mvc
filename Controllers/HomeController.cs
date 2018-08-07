@@ -31,10 +31,18 @@ namespace WebApplication3.Controllers
         {
          
             int i = 0;
-            string text = System.IO.File.ReadAllText("contract.txt");
-            HttpContext.Session.SetString("contractAddress", text);
-            
+            using (StreamReader sr = new StreamReader("contract.txt"))
+            {
+                String line = sr.ReadToEnd();
+                var srt = line.Split(";");
+                foreach (var s in srt)
+                {
+                    if (s != "test" && s!= "")
+                        HttpContext.Session.SetString("contractAddress", s);
+                }
 
+
+            }
             return View();
         }
         public async Task<IActionResult> AccountCreate()
@@ -70,7 +78,7 @@ namespace WebApplication3.Controllers
             accountobj.Block = ob.response.Block;
             accountobj.Contract = ob.response.Contract;
             accountobj.Gas = ob.response.Gas;
-            System.IO.File.AppendAllText("contract.txt", ob.response.Contract);
+            System.IO.File.AppendAllText("contract.txt", ";" + ob.response.Contract);
 
 
             return View(accountobj);
@@ -93,12 +101,14 @@ namespace WebApplication3.Controllers
                     var subSrt = s.Split("-");
                     if (subSrt.Length < 2)
                         break;
-                    var _Hashes = new Hashes();
-                    _Hashes.contractAddress = subSrt[2];
-                    _Hashes.hashofBlockchainData = subSrt[0];
-                    _Hashes.transactionHash = subSrt[1];
-                    arr.Add(_Hashes);
-                    i++;
+                    if (subSrt[0] != "test")
+                    {
+                        var _Hashes = new Hashes();
+                        _Hashes.contractAddress = subSrt[2];
+                        _Hashes.hashofBlockchainData = subSrt[0];
+                        _Hashes.transactionHash = subSrt[1];
+                        arr.Add(_Hashes);
+                    }
                     
                 }
             }
