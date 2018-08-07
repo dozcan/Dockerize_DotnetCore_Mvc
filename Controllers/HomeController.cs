@@ -31,24 +31,7 @@ namespace WebApplication3.Controllers
         {
             var arr = new List<Hashes>();
             int i = 0;
-            using (StreamReader sr = new StreamReader("hash.txt"))
-            {
-                String line = sr.ReadToEnd();
-                var srt = line.Split(";");
-                foreach (var s in srt)
-                {
-                    var subSrt = s.Split("-");
-                    if (subSrt.Length < 2)
-                        break;
-                    var _Hashes = new Hashes();
-                    _Hashes.contractAddress = subSrt[2];
-                    _Hashes.hashofBlockchainData = subSrt[0];
-                    _Hashes.transactionHash = subSrt[1];
-                    arr.Add(_Hashes);
-                    i++;
-
-                }
-            }
+            System.IO.File.AppendAllText("contract.txt", "doga");
 
             return View();
         }
