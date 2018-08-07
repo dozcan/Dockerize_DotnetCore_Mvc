@@ -29,6 +29,13 @@ namespace WebApplication3.Controllers
         }
         public IActionResult Index()
         {
+            using (StreamReader sr = new StreamReader("contract.txt"))
+            {
+                String line = sr.ReadLine();
+                if(line != null)
+                     HttpContext.Session.SetString("contractAddress", line);
+            }
+
             return View();
         }
         public async Task<IActionResult> AccountCreate()
@@ -47,6 +54,7 @@ namespace WebApplication3.Controllers
             return View(accountobj);
         }
 
+       
         public async Task<IActionResult> DeployContract()
         {
             var client = new HttpClient();
@@ -63,7 +71,8 @@ namespace WebApplication3.Controllers
             accountobj.Block = ob.response.Block;
             accountobj.Contract = ob.response.Contract;
             accountobj.Gas = ob.response.Gas;
-            HttpContext.Session.SetString("contractAddress", accountobj.Contract);
+            System.IO.File.AppendAllText("contract.txt", ob.response.Contract);
+
 
             return View(accountobj);
         }
@@ -101,6 +110,8 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public async Task<IActionResult> Identity(FormInput file)
         {
+           
+
             using (var fileStream = new FileStream(Path.Combine("", file.file.FileName), FileMode.Create))
             {
                 await file.file.CopyToAsync(fileStream);
@@ -123,8 +134,8 @@ namespace WebApplication3.Controllers
             var ContractAddress = HttpContext.Session.GetString("contractAddress");
 
             string line = accountobj.Data_hash + "-" + accountobj.Transaction_hash + "-" + ContractAddress + ";";
-
-            System.IO.File.AppendAllText("hash.txt", line);
+            if(ob.success != false)
+                 System.IO.File.AppendAllText("hash.txt", line);
             return View(accountobj);
         }
 
