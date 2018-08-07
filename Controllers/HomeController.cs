@@ -29,11 +29,15 @@ namespace WebApplication3.Controllers
         }
         public IActionResult Index()
         {
-            var arr = new List<Hashes>();
+         
             int i = 0;
             System.IO.File.AppendAllText("contract.txt", "doga");
+            using (StreamReader sr = new StreamReader("contract.txt"))
+            {
+                String line = sr.ReadToEnd();
+            }
 
-            return View();
+                return View();
         }
         public async Task<IActionResult> AccountCreate()
         {
