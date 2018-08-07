@@ -1,0 +1,10 @@
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\bin\Release\netcoreapp2.0\WebApplication3.deps.json
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\bin\Release\netcoreapp2.0\WebApplication3.runtimeconfig.json
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\bin\Release\netcoreapp2.0\WebApplication3.runtimeconfig.dev.json
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\bin\Release\netcoreapp2.0\WebApplication3.dll
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\bin\Release\netcoreapp2.0\WebApplication3.pdb
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\obj\Release\netcoreapp2.0\WebApplication3.csproj.CoreCompileInputs.cache
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\obj\Release\netcoreapp2.0\WebApplication3.AssemblyInfoInputs.cache
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\obj\Release\netcoreapp2.0\WebApplication3.AssemblyInfo.cs
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\obj\Release\netcoreapp2.0\WebApplication3.dll
+C:\Users\doga\source\repos\WebApplication3\WebApplication3\obj\Release\netcoreapp2.0\WebApplication3.pdb

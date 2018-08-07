@@ -6,18 +6,18 @@
   "compilationOptions": {
     "defines": [
       "TRACE",
-      "DEBUG",
+      "RELEASE",
       "NETCOREAPP2_0"
     ],
     "languageVersion": "",
-    "platform": "x64",
+    "platform": "",
     "allowUnsafe": false,
     "warningsAsErrors": false,
-    "optimize": false,
+    "optimize": true,
     "keyFile": "",
     "emitEntryPoint": true,
     "xmlDoc": false,
-    "debugType": "full"
+    "debugType": "portable"
   },
   "targets": {
     ".NETCoreApp,Version=v2.0": {
