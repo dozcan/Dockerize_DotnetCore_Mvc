@@ -29,21 +29,35 @@ namespace WebApplication3.Controllers
         }
         public IActionResult Index()
         {
-         
+            try
+            { 
             int i = 0;
-            using (StreamReader sr = new StreamReader("contract.txt"))
-            {
-                String line = sr.ReadToEnd();
-                var srt = line.Split(";");
-                foreach (var s in srt)
+                using (StreamReader sr = new StreamReader("contract.txt"))
                 {
-                    if (s != "test" && s!= "")
-                        HttpContext.Session.SetString("contractAddress", s);
+                    String line = sr.ReadToEnd();
+                    var srt = line.Split(";");
+                    foreach (var s in srt)
+                    {
+                        if (s != "test" && s != "")
+                            HttpContext.Session.SetString("contractAddress", s);
+                    }
+
                 }
-
-
+            }
+            catch(Exception ex)
+            {
+                WriteMessageToFile(ex.Message);
             }
             return View();
+        }
+
+        private static void WriteMessageToFile(string message)
+        {
+            using (var streamWriter = new StreamWriter("AspCoreFileLog.txt", true))
+            {
+                streamWriter.WriteLine(message);
+                streamWriter.Close();
+            }
         }
         public async Task<IActionResult> AccountCreate()
         {
