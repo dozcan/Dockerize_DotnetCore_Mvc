@@ -29,12 +29,12 @@ namespace WebApplication3.Controllers
         }
         public IActionResult Index()
         {
-            using (StreamReader sr = new StreamReader("contract.txt"))
+            /*using (StreamReader sr = new StreamReader("contract.txt"))
             {
                 String line = sr.ReadLine();
                 if(line != null)
                      HttpContext.Session.SetString("contractAddress", line);
-            }
+            }*/
 
             return View();
         }
