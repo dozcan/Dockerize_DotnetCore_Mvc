@@ -31,10 +31,11 @@ namespace WebApplication3.Controllers
         {
          
             int i = 0;
-            System.IO.File.AppendAllText("contract.txt", "doga");
+            System.IO.File.AppendAllText("contract.txt", "");
             using (StreamReader sr = new StreamReader("contract.txt"))
             {
                 String line = sr.ReadToEnd();
+                HttpContext.Session.SetString("contractAddress", line);
             }
 
                 return View();
