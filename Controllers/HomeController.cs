@@ -31,9 +31,8 @@ namespace WebApplication3.Controllers
         {
             using (StreamReader sr = new StreamReader("contract.txt"))
             {
-                String line = sr.ReadLine();
-                if(!String.IsNullOrEmpty(line))
-                     HttpContext.Session.SetString("contractAddress", line);
+                String line = sr.ReadToEnd();
+                HttpContext.Session.SetString("contractAddress", line);
             }
 
             return View();
