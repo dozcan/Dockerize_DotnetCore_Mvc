@@ -157,8 +157,11 @@ namespace WebApplication3.Controllers
             var ContractAddress = HttpContext.Session.GetString("contractAddress");
 
             string line = accountobj.Data_hash + "-" + accountobj.Transaction_hash + "-" + ContractAddress + ";";
-            if(ob.success != false)
-                 System.IO.File.AppendAllText("hash.txt", line);
+            if (ob.success != false)
+            {
+                System.IO.File.AppendAllText("hash.txt", line);
+                ViewData["err"] = "Veri boyutunu aştınız";
+            }
             return View(accountobj);
         }
 
