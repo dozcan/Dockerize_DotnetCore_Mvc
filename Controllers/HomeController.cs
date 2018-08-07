@@ -31,14 +31,11 @@ namespace WebApplication3.Controllers
         {
          
             int i = 0;
-            System.IO.File.AppendAllText("contract.txt", "");
-            using (StreamReader sr = new StreamReader("contract.txt"))
-            {
-                String line = sr.ReadToEnd();
-                HttpContext.Session.SetString("contractAddress", line);
-            }
+            string text = System.IO.File.ReadAllText("contract.txt");
+            HttpContext.Session.SetString("contractAddress", text);
+            
 
-                return View();
+            return View();
         }
         public async Task<IActionResult> AccountCreate()
         {
