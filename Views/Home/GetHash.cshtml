@@ -28,16 +28,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var hash in @Model)
+                @if(@ViewBag.count == "OP")
                 {
-                    <tr>
-                        <td>@hash.hashofBlockchainData</td>
-                        <td>@hash.transactionHash</td>
-                        <td>@hash.contractAddress</td>
-                        <td>
-                            <a href='@Url.Action("GetBlockChainData", "Home", new { contractAddress = @hash.contractAddress ,hashofBlockchainData = @hash.hashofBlockchainData})'>Getir</a>
-                        </td>
-                    </tr>
+                    @foreach (var hash in @Model)
+                    {
+                        <tr>
+                            <td>@hash.hashofBlockchainData</td>
+                            <td>@hash.transactionHash</td>
+                            <td>@hash.contractAddress</td>
+                            <td>
+                                <a href='@Url.Action("GetBlockChainData", "Home", new { contractAddress = @hash.contractAddress, hashofBlockchainData = @hash.hashofBlockchainData })'>Getir</a>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>

@@ -123,8 +123,10 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> GetHash()
         {
             var arr = new List<Hashes>();
+         
             try
             {
+                int i = 0;
                 var mongo = new MongoClient(_appSettings.mongo_cs);
                 var db = mongo.GetDatabase("default");
 
@@ -133,12 +135,17 @@ namespace WebApplication3.Controllers
 
                 foreach (var _l in list)
                 {
+                    i++;
                     var _Hashes = new Hashes();
                     _Hashes.contractAddress = _l.contractAddress;
                     _Hashes.hashofBlockchainData = _l.hashofBlockchainData;
                     _Hashes.transactionHash = _l.transactionHash;
                     arr.Add(_Hashes);
                 }
+                if (i == 0)
+                    ViewBag.count = "NOP";
+                else
+                    ViewBag.count = "OP";
             }
             catch(Exception ex)
             {
