@@ -25,8 +25,6 @@ namespace WebApplication3.Controllers
     public class HomeController : Controller
     {
         private readonly AppSettings _appSettings;
-        private  IMongoCollection<Hashes> _hashTableMongo = null;
-
         public string url; 
         public HomeController(IOptions<AppSettings> appSettings)
         {
@@ -37,40 +35,21 @@ namespace WebApplication3.Controllers
         {
             try
             {
-                var mongo = new MongoClient(_appSettings.mongo_cs);
-                var db = mongo.GetDatabase("default");
-                var ContractAddress = db.GetCollection<ContractAddressMongo>("ContractAddress");
-                var list = ContractAddress.AsQueryable();
-
-                foreach (var _l in list)
+                var data = HttpContext.Session.GetString("contractAddress");
+                if (data == null)
                 {
-                    var ob = _l.address;
-                    HttpContext.Session.SetString("contractAddress", ob);
-                    break;
-                }
+                    var mongo = new MongoClient(_appSettings.mongo_cs);
+                    var db = mongo.GetDatabase("default");
+                    var ContractAddress = db.GetCollection<ContractAddressMongo>("ContractAddress");
+                    var list = ContractAddress.AsQueryable();
 
-                /*
-                if (!System.IO.File.Exists("contract.txt"))
-                {
-                    System.IO.File.Create("contract.txt").Dispose();
-
-
-                }
-
-                else
-                {
-                    using (StreamReader sr = new StreamReader("contract.txt"))
+                    foreach (var _l in list)
                     {
-                        String line = sr.ReadToEnd();
-                        var srt = line.Split(";");
-                        foreach (var s in srt)
-                        {
-                            if (s != "test" && s != "")
-                                HttpContext.Session.SetString("contractAddress", s);
-                        }
-
+                        var ob = _l.address;
+                        HttpContext.Session.SetString("contractAddress", ob);
+                        break;
                     }
-                }*/
+                }
             }
             catch(Exception ex)
             {
@@ -79,25 +58,27 @@ namespace WebApplication3.Controllers
             return View();
         }
 
-
         public async Task<IActionResult> AccountCreate()
         {
-
-            var client = new HttpClient();
-            HttpResponseMessage Task;
-
-            Task = await client.GetAsync(url + "AccountCreate");
-            var content = await Task.Content.ReadAsStringAsync();
-
-            var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<AccountCreateModelResponse>(content);
             var accountobj = new AccountCreateModel();
-            accountobj.Key = ob.response.Key;
-            accountobj.Account = ob.response.Account;
+            try
+            {
+                var client = new HttpClient();
+                HttpResponseMessage Task;
 
+                Task = await client.GetAsync(url + "AccountCreate");
+                var content = await Task.Content.ReadAsStringAsync();
+                var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<AccountCreateModelResponse>(content);
+                accountobj.Key = ob.response.Key;
+                accountobj.Account = ob.response.Account;
+            }
+            catch(Exception ex)
+            {
+
+            }
             return View(accountobj);
         }
-
-       
+ 
         public async Task<IActionResult> DeployContract()
         {
             var accountobj = new DeployContractModel();
@@ -117,10 +98,6 @@ namespace WebApplication3.Controllers
                 accountobj.Contract = ob.response.Contract;
                 accountobj.Gas = ob.response.Gas;
 
-              /*  using (TextWriter tw = new StreamWriter("contract.txt"))
-                {
-                    tw.WriteLine(";" + ob.response.Contract);
-                }*/
                 var add = new ContractAddress();
                 add.address = ob.response.Contract;
 
@@ -143,55 +120,30 @@ namespace WebApplication3.Controllers
             return View();
         }
 
-
         public async Task<IActionResult> GetHash()
         {
             var arr = new List<Hashes>();
-            int i = 0;
-            /*
-            if (!System.IO.File.Exists("hash.txt"))
+            try
             {
-                System.IO.File.Create("hash.txt").Dispose();
+                var mongo = new MongoClient(_appSettings.mongo_cs);
+                var db = mongo.GetDatabase("default");
 
-            }
-            else
-            {
+                var _hashTableMongo = db.GetCollection<HashesMongo>("Hashes");
+                var list = _hashTableMongo.AsQueryable();
 
-                using (StreamReader sr = new StreamReader("hash.txt"))
+                foreach (var _l in list)
                 {
-                    String line = sr.ReadToEnd();
-                    var srt = line.Split(";");
-                    foreach (var s in srt)
-                    {
-                        var subSrt = s.Split("-");
-                        if (subSrt.Length < 2)
-                            break;
-                        if (subSrt[0] != "test")
-                        {
-                            var _Hashes = new Hashes();
-                            _Hashes.contractAddress = subSrt[2];
-                            _Hashes.hashofBlockchainData = subSrt[0];
-                            _Hashes.transactionHash = subSrt[1];
-                            arr.Add(_Hashes);
-                        }
-
-                    }
+                    var _Hashes = new Hashes();
+                    _Hashes.contractAddress = _l.contractAddress;
+                    _Hashes.hashofBlockchainData = _l.hashofBlockchainData;
+                    _Hashes.transactionHash = _l.transactionHash;
+                    arr.Add(_Hashes);
                 }
-            }*/
-
-            var mongo = new MongoClient(_appSettings.mongo_cs);
-            var db = mongo.GetDatabase("default");
-            var _hashTableMongo = db.GetCollection<HashesMongo>("Hashes");
-            var list = _hashTableMongo.AsQueryable();
-
-
-            foreach (var _l in list)
+            }
+            catch(Exception ex)
             {
-                 var _Hashes = new Hashes();
-                _Hashes.contractAddress = _l.contractAddress;
-                _Hashes.hashofBlockchainData = _l.hashofBlockchainData;
-                _Hashes.transactionHash = _l.transactionHash;
-                arr.Add(_Hashes);
+
+
             }
             return View(arr);
         }
@@ -199,53 +151,45 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public async Task<IActionResult> Identity(FormInput file)
         {
-           
-            using (var fileStream = new FileStream(Path.Combine("", file.file.FileName), FileMode.Create))
-            {
-                await file.file.CopyToAsync(fileStream);
-            }
-          
-            var identityToBlockchain = CreatePayload(file.file.FileName, file.name, file.surname);
-
-            var client = new HttpClient();
-
-            var Task = await client.PostAsync(url + "identity", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
-
-            var content = await Task.Content.ReadAsStringAsync();
-
-            var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseIdentityModel>(content);
             var accountobj = new IdentityModel();
 
-            accountobj.Account = ob.response.Account;
-            accountobj.Data_hash = ob.response.Data_hash;
-            accountobj.Transaction_hash = ob.response.Transaction_hash;
-
-            var ContractAddress = HttpContext.Session.GetString("contractAddress");
-
-            var _Hashes = new Hashes();
-            _Hashes.contractAddress = ContractAddress;
-            _Hashes.hashofBlockchainData = accountobj.Data_hash;
-            _Hashes.transactionHash = accountobj.Transaction_hash;
-
-            var mongo = new MongoClient(_appSettings.mongo_cs);
-            var db = mongo.GetDatabase("default");
-            _hashTableMongo = db.GetCollection<Hashes>("Hashes");
-            _hashTableMongo.InsertOneAsync(_Hashes);
-
-
-           /* string line = accountobj.Data_hash + "-" + accountobj.Transaction_hash + "-" + ContractAddress + ";";
-            if (ob.success == false)
+            try
             {
-                ViewData["err"] = "Veri boyutunu aştınız";
+                using (var fileStream = new FileStream(Path.Combine("", file.file.FileName), FileMode.Create))
+                {
+                    await file.file.CopyToAsync(fileStream);
+                }
+
+                var identityToBlockchain = CreatePayload(file.file.FileName, file.name, file.surname);
+
+                var client = new HttpClient();
+
+                var Task = await client.PostAsync(url + "identity", new StringContent(identityToBlockchain, Encoding.UTF8, "application/json"));
+
+                var content = await Task.Content.ReadAsStringAsync();
+
+                var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseIdentityModel>(content);
+          
+                accountobj.Account = ob.response.Account;
+                accountobj.Data_hash = ob.response.Data_hash;
+                accountobj.Transaction_hash = ob.response.Transaction_hash;
+
+                var ContractAddress = HttpContext.Session.GetString("contractAddress");
+
+                var _Hashes = new Hashes();
+                _Hashes.contractAddress = ContractAddress;
+                _Hashes.hashofBlockchainData = accountobj.Data_hash;
+                _Hashes.transactionHash = accountobj.Transaction_hash;
+
+                var mongo = new MongoClient(_appSettings.mongo_cs);
+                var db = mongo.GetDatabase("default");
+                var _hashTableMongo = db.GetCollection<Hashes>("Hashes");
+                _hashTableMongo.InsertOneAsync(_Hashes);
             }
-            else
+            catch(Exception ex)
             {
-                ViewData["err"] = "";
+
             }
-
-            System.IO.File.AppendAllText("hash.txt", line);
-            */
-
 
             return View(accountobj);
         }

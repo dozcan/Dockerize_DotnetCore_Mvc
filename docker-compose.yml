@@ -1,6 +1,6 @@
 ﻿version: "3"
 services:
-    WebApplication3:
+    webApplication3:
         build: 
           context: .
           dockerfile: Dockerfile
