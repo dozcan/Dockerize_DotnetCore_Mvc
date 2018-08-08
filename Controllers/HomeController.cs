@@ -44,7 +44,8 @@ namespace WebApplication3.Controllers
                     {
                         string contract;
                         contract = client.Get<string>("ContractAddress");
-                        HttpContext.Session.SetString("contractAddress", contract);
+                        if(contract!=null)
+                            HttpContext.Session.SetString("contractAddress", contract);
                     }
                 }
             }
@@ -98,10 +99,6 @@ namespace WebApplication3.Controllers
                 var add = new ContractAddress();
                 add.address = ob.response.Contract;
 
-                var mongo = new MongoClient(_appSettings.mongo_cs);
-                var db = mongo.GetDatabase("default");
-                var ContractAddress = db.GetCollection<ContractAddress>("ContractAddress");
-                ContractAddress.InsertOneAsync(add);
 
                 var manager = new RedisManagerPool("localhost:6379");
                 using (var clientOps = manager.GetClient())
@@ -129,26 +126,35 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> GetHash()
         {
             var arr = new List<Hashes>();
-         
+            int len=0;
             try
             {
-                int i = 0;
-                var mongo = new MongoClient(_appSettings.mongo_cs);
-                var db = mongo.GetDatabase("default");
 
-                var _hashTableMongo = db.GetCollection<HashesMongo>("Hashes");
-                var list = _hashTableMongo.AsQueryable();
+                var manager = new RedisManagerPool("localhost:6379");
 
-                foreach (var _l in list)
+                using (var client = manager.GetClient())
                 {
-                    i++;
-                    var _Hashes = new Hashes();
-                    _Hashes.contractAddress = _l.contractAddress;
-                    _Hashes.hashofBlockchainData = _l.hashofBlockchainData;
-                    _Hashes.transactionHash = _l.transactionHash;
-                    arr.Add(_Hashes);
+                    if (client.Get<string>("ContractAddress") != null)
+                    {
+                        var contract = client.Get<string>("ContractAddress").Split(";");
+                        var data_hash = client.Get<string>("HashofBlockchainData").Split(";");
+                        var block_hash = client.Get<string>("TransactionHash").Split(";");
+
+                        len = contract.Length;
+
+                        for (int i = 0; i < len; i++)
+                        {
+                            var _Hashes = new Hashes();
+                            _Hashes.contractAddress = contract[i];
+                            _Hashes.hashofBlockchainData = data_hash[i];
+                            _Hashes.transactionHash = block_hash[i];
+                            arr.Add(_Hashes);
+                        }
+                    }
+
                 }
-                if (i == 0)
+
+                if (len == 0)
                     ViewBag.count = "NOP";
                 else
                     ViewBag.count = "OP";
@@ -194,10 +200,38 @@ namespace WebApplication3.Controllers
                 _Hashes.hashofBlockchainData = accountobj.Data_hash;
                 _Hashes.transactionHash = accountobj.Transaction_hash;
 
-                var mongo = new MongoClient(_appSettings.mongo_cs);
-                var db = mongo.GetDatabase("default");
-                var _hashTableMongo = db.GetCollection<Hashes>("Hashes");
-                _hashTableMongo.InsertOneAsync(_Hashes);
+
+                var manager = new RedisManagerPool("localhost:6379");
+                using (var clientOps = manager.GetClient())
+                {
+                    var contract = clientOps.Get<string>("ContractAddress");
+                    string c;
+                    if (contract == null)
+                        c =  _Hashes.contractAddress;
+                    else
+                        c = contract + ";" + _Hashes.contractAddress;
+
+                    clientOps.SetValue("ContractAddress", c);
+
+                    var data_hash = clientOps.Get<string>("HashofBlockchainData");
+                    string d;
+                    if(data_hash==null)
+                        d = _Hashes.hashofBlockchainData;
+                    else
+                        d = data_hash + ";" + _Hashes.hashofBlockchainData;
+
+                    clientOps.SetValue("HashofBlockchainData", d);
+
+                    var block_hash = clientOps.Get<string>("TransactionHash");
+                    string t;
+                    if(block_hash==null)
+                        t = _Hashes.transactionHash;
+                    else
+                        t = block_hash + ";" + _Hashes.transactionHash;
+
+                    clientOps.SetValue("TransactionHash", t);
+                }
+
             }
             catch(Exception ex)
             {
