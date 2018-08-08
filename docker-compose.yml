@@ -1,6 +1,6 @@
 ﻿version: "3"
 services:
-    webApplication3:
+    webapplication3:
         build: 
           context: .
           dockerfile: Dockerfile
@@ -8,7 +8,13 @@ services:
             - "8080:80"
         depends_on:
             - mongo
+            - redis
     mongo:
         image: mongo
         ports:
             - "27017:27017"
+
+    redis:
+        image: redis
+        ports:
+            - "6379:6379"

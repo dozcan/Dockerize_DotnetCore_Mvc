@@ -17,6 +17,7 @@ using System.IO.Compression;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using ServiceStack.Redis;
 
 using MongoDB.Driver.Core;
 
@@ -25,7 +26,7 @@ namespace WebApplication3.Controllers
     public class HomeController : Controller
     {
         private readonly AppSettings _appSettings;
-        public string url; 
+        public string url;
         public HomeController(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
@@ -35,19 +36,15 @@ namespace WebApplication3.Controllers
         {
             try
             {
+                var manager = new RedisManagerPool("localhost:6379");
                 var data = HttpContext.Session.GetString("contractAddress");
                 if (data == null)
                 {
-                    var mongo = new MongoClient(_appSettings.mongo_cs);
-                    var db = mongo.GetDatabase("default");
-                    var ContractAddress = db.GetCollection<ContractAddressMongo>("ContractAddress");
-                    var list = ContractAddress.AsQueryable();
-
-                    foreach (var _l in list)
+                    using (var client = manager.GetClient())
                     {
-                        var ob = _l.address;
-                        HttpContext.Session.SetString("contractAddress", ob);
-                        break;
+                        string contract;
+                        contract = client.Get<string>("ContractAddress");
+                        HttpContext.Session.SetString("contractAddress", contract);
                     }
                 }
             }
@@ -105,6 +102,14 @@ namespace WebApplication3.Controllers
                 var db = mongo.GetDatabase("default");
                 var ContractAddress = db.GetCollection<ContractAddress>("ContractAddress");
                 ContractAddress.InsertOneAsync(add);
+
+                var manager = new RedisManagerPool("localhost:6379");
+                using (var clientOps = manager.GetClient())
+                {
+                    clientOps.Set("contractAddress", ob.response.Contract);
+                    HttpContext.Session.SetString("contractAddress", ob.response.Contract);
+                }
+
                 HttpContext.Session.SetString("contractAddress", ob.response.Contract);
 
             }
