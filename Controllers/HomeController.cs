@@ -15,12 +15,18 @@ using System.IO;
 using System.Drawing;
 using System.IO.Compression;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using MongoDB.Bson;
+
+using MongoDB.Driver.Core;
 
 namespace WebApplication3.Controllers
 {
     public class HomeController : Controller
     {
         private readonly AppSettings _appSettings;
+        private  IMongoCollection<Hashes> _hashTableMongo = null;
+
         public string url; 
         public HomeController(IOptions<AppSettings> appSettings)
         {
@@ -30,37 +36,53 @@ namespace WebApplication3.Controllers
         public IActionResult Index()
         {
             try
-            { 
-            int i = 0;
-                using (StreamReader sr = new StreamReader("contract.txt"))
+            {
+                var mongo = new MongoClient(_appSettings.mongo_cs);
+                var db = mongo.GetDatabase("default");
+                var ContractAddress = db.GetCollection<ContractAddressMongo>("ContractAddress");
+                var list = ContractAddress.AsQueryable();
+
+                foreach (var _l in list)
                 {
-                    String line = sr.ReadToEnd();
-                    var srt = line.Split(";");
-                    foreach (var s in srt)
-                    {
-                        if (s != "test" && s != "")
-                            HttpContext.Session.SetString("contractAddress", s);
-                    }
+                    var ob = _l.address;
+                    HttpContext.Session.SetString("contractAddress", ob);
+                    break;
+                }
+
+                /*
+                if (!System.IO.File.Exists("contract.txt"))
+                {
+                    System.IO.File.Create("contract.txt").Dispose();
+
 
                 }
+
+                else
+                {
+                    using (StreamReader sr = new StreamReader("contract.txt"))
+                    {
+                        String line = sr.ReadToEnd();
+                        var srt = line.Split(";");
+                        foreach (var s in srt)
+                        {
+                            if (s != "test" && s != "")
+                                HttpContext.Session.SetString("contractAddress", s);
+                        }
+
+                    }
+                }*/
             }
             catch(Exception ex)
             {
-                WriteMessageToFile(ex.Message);
+
             }
             return View();
         }
 
-        private static void WriteMessageToFile(string message)
-        {
-            using (var streamWriter = new StreamWriter("AspCoreFileLog.txt", true))
-            {
-                streamWriter.WriteLine(message);
-                streamWriter.Close();
-            }
-        }
+
         public async Task<IActionResult> AccountCreate()
         {
+
             var client = new HttpClient();
             HttpResponseMessage Task;
 
@@ -78,22 +100,40 @@ namespace WebApplication3.Controllers
        
         public async Task<IActionResult> DeployContract()
         {
-            var client = new HttpClient();
-            HttpResponseMessage Task;
-
-            Task = await client.GetAsync(url + "DeployContract");
-            var content = await Task.Content.ReadAsStringAsync();
-
-            var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseDeployContractModel>(content);
             var accountobj = new DeployContractModel();
+            try
+            {
+                var client = new HttpClient();
+                HttpResponseMessage Task;
 
-            accountobj.Account = ob.response.Account;
-            accountobj.Balance = ob.response.Balance;
-            accountobj.Block = ob.response.Block;
-            accountobj.Contract = ob.response.Contract;
-            accountobj.Gas = ob.response.Gas;
-            System.IO.File.AppendAllText("contract.txt", ";" + ob.response.Contract);
+                Task = await client.GetAsync(url + "DeployContract");
+                var content = await Task.Content.ReadAsStringAsync();
 
+                var ob = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseDeployContractModel>(content);           
+
+                accountobj.Account = ob.response.Account;
+                accountobj.Balance = ob.response.Balance;
+                accountobj.Block = ob.response.Block;
+                accountobj.Contract = ob.response.Contract;
+                accountobj.Gas = ob.response.Gas;
+
+              /*  using (TextWriter tw = new StreamWriter("contract.txt"))
+                {
+                    tw.WriteLine(";" + ob.response.Contract);
+                }*/
+                var add = new ContractAddress();
+                add.address = ob.response.Contract;
+
+                var mongo = new MongoClient(_appSettings.mongo_cs);
+                var db = mongo.GetDatabase("default");
+                var ContractAddress = db.GetCollection<ContractAddress>("ContractAddress");
+                ContractAddress.InsertOneAsync(add);
+
+            }
+            catch(Exception ex)
+            {
+
+            }
 
             return View(accountobj);
         }
@@ -103,30 +143,56 @@ namespace WebApplication3.Controllers
             return View();
         }
 
-        public IActionResult GetHash()
+
+        public async Task<IActionResult> GetHash()
         {
             var arr = new List<Hashes>();
             int i = 0;
-            using (StreamReader sr = new StreamReader("hash.txt"))
+            /*
+            if (!System.IO.File.Exists("hash.txt"))
             {
-                String line = sr.ReadToEnd();
-                var srt = line.Split(";");
-                foreach(var s in srt) {
-                    var subSrt = s.Split("-");
-                    if (subSrt.Length < 2)
-                        break;
-                    if (subSrt[0] != "test")
-                    {
-                        var _Hashes = new Hashes();
-                        _Hashes.contractAddress = subSrt[2];
-                        _Hashes.hashofBlockchainData = subSrt[0];
-                        _Hashes.transactionHash = subSrt[1];
-                        arr.Add(_Hashes);
-                    }
-                    
-                }
-            }
+                System.IO.File.Create("hash.txt").Dispose();
 
+            }
+            else
+            {
+
+                using (StreamReader sr = new StreamReader("hash.txt"))
+                {
+                    String line = sr.ReadToEnd();
+                    var srt = line.Split(";");
+                    foreach (var s in srt)
+                    {
+                        var subSrt = s.Split("-");
+                        if (subSrt.Length < 2)
+                            break;
+                        if (subSrt[0] != "test")
+                        {
+                            var _Hashes = new Hashes();
+                            _Hashes.contractAddress = subSrt[2];
+                            _Hashes.hashofBlockchainData = subSrt[0];
+                            _Hashes.transactionHash = subSrt[1];
+                            arr.Add(_Hashes);
+                        }
+
+                    }
+                }
+            }*/
+
+            var mongo = new MongoClient(_appSettings.mongo_cs);
+            var db = mongo.GetDatabase("default");
+            var _hashTableMongo = db.GetCollection<HashesMongo>("Hashes");
+            var list = _hashTableMongo.AsQueryable();
+
+
+            foreach (var _l in list)
+            {
+                 var _Hashes = new Hashes();
+                _Hashes.contractAddress = _l.contractAddress;
+                _Hashes.hashofBlockchainData = _l.hashofBlockchainData;
+                _Hashes.transactionHash = _l.transactionHash;
+                arr.Add(_Hashes);
+            }
             return View(arr);
         }
 
@@ -134,7 +200,6 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> Identity(FormInput file)
         {
            
-
             using (var fileStream = new FileStream(Path.Combine("", file.file.FileName), FileMode.Create))
             {
                 await file.file.CopyToAsync(fileStream);
@@ -154,14 +219,34 @@ namespace WebApplication3.Controllers
             accountobj.Account = ob.response.Account;
             accountobj.Data_hash = ob.response.Data_hash;
             accountobj.Transaction_hash = ob.response.Transaction_hash;
+
             var ContractAddress = HttpContext.Session.GetString("contractAddress");
 
-            string line = accountobj.Data_hash + "-" + accountobj.Transaction_hash + "-" + ContractAddress + ";";
-            if (ob.success != false)
+            var _Hashes = new Hashes();
+            _Hashes.contractAddress = ContractAddress;
+            _Hashes.hashofBlockchainData = accountobj.Data_hash;
+            _Hashes.transactionHash = accountobj.Transaction_hash;
+
+            var mongo = new MongoClient(_appSettings.mongo_cs);
+            var db = mongo.GetDatabase("default");
+            _hashTableMongo = db.GetCollection<Hashes>("Hashes");
+            _hashTableMongo.InsertOneAsync(_Hashes);
+
+
+           /* string line = accountobj.Data_hash + "-" + accountobj.Transaction_hash + "-" + ContractAddress + ";";
+            if (ob.success == false)
             {
-                System.IO.File.AppendAllText("hash.txt", line);
                 ViewData["err"] = "Veri boyutunu aştınız";
             }
+            else
+            {
+                ViewData["err"] = "";
+            }
+
+            System.IO.File.AppendAllText("hash.txt", line);
+            */
+
+
             return View(accountobj);
         }
 

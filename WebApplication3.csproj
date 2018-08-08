@@ -13,8 +13,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="web.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="jQuery" Version="3.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
+    <PackageReference Include="ServiceStack.Redis.Core" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="data\" />
+    <Folder Include="mongo\" />
   </ItemGroup>
 
 </Project>

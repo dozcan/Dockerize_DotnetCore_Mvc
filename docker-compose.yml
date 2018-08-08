@@ -1,0 +1,14 @@
+﻿version: "3"
+services:
+    WebApplication3:
+        build: 
+          context: .
+          dockerfile: Dockerfile
+        ports:
+            - "8080:80"
+        depends_on:
+            - mongo
+    mongo:
+        image: mongo
+        ports:
+            - "27017:27017"

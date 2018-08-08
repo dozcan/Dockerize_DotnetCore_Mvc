@@ -9,5 +9,6 @@ namespace WebApplication3.Models
     {
         public string node_api { get; set; }
         public string node_port { get; set; }
+        public string mongo_cs {get;set;}
     }
 }
