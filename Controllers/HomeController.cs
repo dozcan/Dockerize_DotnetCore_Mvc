@@ -105,6 +105,7 @@ namespace WebApplication3.Controllers
                 var db = mongo.GetDatabase("default");
                 var ContractAddress = db.GetCollection<ContractAddress>("ContractAddress");
                 ContractAddress.InsertOneAsync(add);
+                HttpContext.Session.SetString("contractAddress", ob.response.Contract);
 
             }
             catch(Exception ex)
