@@ -39,7 +39,14 @@
                 <h2>2-YÜKLE</h2>
                 <ul>
                     <li>Blockchain üzerine akıllı sözleşme yükleyebilirsiniz.</li>
-                    <li><a asp-area="" asp-controller="Home" class="btn btn-default" asp-action="DeployContract">Başlayın</a></li>
+                    @if (@ViewBag.enable == "false")
+                    {
+                        <li><a asp-area="" asp-controller="Home" class="btn btn-default disabled" asp-action="DeployContract">Başlayın</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Home" class="btn btn-default" asp-action="DeployContract">Başlayın</a></li>
+                    }
                 </ul>
             </div>
             <div class=" col-md-3">

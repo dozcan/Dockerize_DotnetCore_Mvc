@@ -44,10 +44,23 @@ namespace WebApplication3.Controllers
                     {
                         string contract;
                         contract = client.Get<string>("ContractAddress");
-                        if(contract!=null)
+                        if (contract != null)
+                        {
                             HttpContext.Session.SetString("contractAddress", contract);
+                            ViewBag.enable = "false";
+                        }
+                        else
+                            ViewBag.enable = "true";
                     }
                 }
+                else
+                {
+                    ViewBag.enable = "false";
+                }
+
+           
+
+
             }
             catch(Exception ex)
             {
@@ -140,7 +153,7 @@ namespace WebApplication3.Controllers
                         var data_hash = client.Get<string>("HashofBlockchainData").Split(";");
                         var block_hash = client.Get<string>("TransactionHash").Split(";");
 
-                        len = contract.Length;
+                        len = data_hash.Length;
 
                         for (int i = 0; i < len; i++)
                         {
