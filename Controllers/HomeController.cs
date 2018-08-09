@@ -17,7 +17,7 @@ using System.IO.Compression;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using ServiceStack.Redis;
+using StackExchange.Redis;
 
 using MongoDB.Driver.Core;
 using Microsoft.Extensions.Caching.Distributed;
@@ -41,22 +41,22 @@ namespace WebApplication3.Controllers
             try
             {
 
-                var manager = new RedisManagerPool("redis://localhost:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("127.0.0.1:6379");
+
+                IDatabase db = redis.GetDatabase();
+
                 var data = HttpContext.Session.GetString("contractAddress");
                 if (data == null)
                 {
-                    using (var client = manager.GetClient())
-                    {
-                        string contract;
-                        contract = client.Get<string>("ContractAddress");
+                    string contract;
+                    contract = db.StringGet("contractAddress");
                     if (contract != null)
-                        {
-                            HttpContext.Session.SetString("contractAddress", contract);
-                            ViewBag.enable = "false";
-                        }
-                        else
-                            ViewBag.enable = "true";
+                    {
+                        HttpContext.Session.SetString("contractAddress", contract);
+                        ViewBag.enable = "false";
                     }
+                    else
+                        ViewBag.enable = "true";
                 }
                 else
                 {
@@ -115,14 +115,11 @@ namespace WebApplication3.Controllers
                 add.address = ob.response.Contract;
 
 
-                var manager = new RedisManagerPool("redis://localhost:6379");
-                using (var clientOps = manager.GetClient())
-                {
-                 clientOps.Set("contractAddress", ob.response.Contract);
-                 HttpContext.Session.SetString("contractAddress", ob.response.Contract);
-                }
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("127.0.0.1:6379");
 
-                HttpContext.Session.SetString("contractAddress", ob.response.Contract);
+                IDatabase db = redis.GetDatabase();
+                db.StringSet("contractAddress", ob.response.Contract);
+                HttpContext.Session.SetString("contractAddress", ob.response.Contract);          
 
             }
             catch(Exception ex)
@@ -145,15 +142,20 @@ namespace WebApplication3.Controllers
             try
             {
 
-                var manager = new RedisManagerPool("redis://localhost:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("127.0.0.1:6379");
 
-                using (var client = manager.GetClient())
-                               {
-                if (client.Get<string>("ContractAddress") != null)          
+                IDatabase db = redis.GetDatabase();
+
+
+                string _contract = db.StringGet("contractAddress");
+                if (_contract != null)          
                 {
-                       var contract = client.Get<string>("ContractAddress").Split(";");
-                        var data_hash = client.Get<string>("HashofBlockchainData").Split(";");
-                        var block_hash = client.Get<string>("TransactionHash").Split(";");
+                        string contractArr = db.StringGet("contractAddress");
+                        var contract = contractArr.Split(";");
+                        string data_hashArr = db.StringGet("data_hash");
+                        var data_hash = data_hashArr.Split(";");
+                        string block_hashArr = db.StringGet("block_hash");
+                        var block_hash = block_hashArr.Split(";");
 
                         len = data_hash.Length;
 
@@ -167,7 +169,7 @@ namespace WebApplication3.Controllers
                         }
                     }
 
-                }
+                
 
                 if (len == 0)
                     ViewBag.count = "NOP";
@@ -216,40 +218,38 @@ namespace WebApplication3.Controllers
                 _Hashes.transactionHash = accountobj.Transaction_hash;
 
 
-                var manager = new RedisManagerPool("127.0.0.1:6379");
-                using (var clientOps = manager.GetClient())
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                IDatabase db = redis.GetDatabase();
+     
+                string contract = db.StringGet("contractAddress");
+                string c="";
+                if (string.IsNullOrEmpty(contract))
                 {
-
-                    var contract = clientOps.Get<string>("ContractAddress");
-                    string c;
-                    if (contract == null)
-                        c =  _Hashes.contractAddress;
-                    else
-                        c = contract + ";" + _Hashes.contractAddress;
-
-                    clientOps.SetValue("ContractAddress", c);
-
-                    var data_hash = clientOps.Get<string>("HashofBlockchainData");
-                    string d;
-                    if(data_hash==null)
-                        d = _Hashes.hashofBlockchainData;
-                    else
-                        d = data_hash + ";" + _Hashes.hashofBlockchainData;
-
-                    clientOps.SetValue("HashofBlockchainData", d);
-
-                    var block_hash = clientOps.Get<string>("TransactionHash");
-                    string t;
-                    if(block_hash==null)
-                        t = _Hashes.transactionHash;
-                    else
-                        t = block_hash + ";" + _Hashes.transactionHash;
-
-                    clientOps.SetValue("TransactionHash", t);
+                    c = _Hashes.contractAddress;
+                    db.StringSet("contractAddress", c);
                 }
 
+                string data_hash = db.StringGet("data_hash");
+                string d;
+                if (string.IsNullOrEmpty(data_hash))
+                    d = _Hashes.hashofBlockchainData;
+                else
+                    d = data_hash + ";" + _Hashes.hashofBlockchainData;
+
+                db.StringSet("data_hash", d);
+
+                string block_hash = db.StringGet("block_hash");
+                string t;
+                if (string.IsNullOrEmpty(block_hash))
+                    t = _Hashes.transactionHash;
+                else
+                    t = block_hash + ";" + _Hashes.transactionHash;
+
+                db.StringSet("block_hash", t);
+            
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }

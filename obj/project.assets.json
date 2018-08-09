@@ -3057,72 +3057,6 @@
           }
         }
       },
-      "ServiceStack.Common.Core/5.1.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Primitives": "2.0.0",
-          "ServiceStack.Interfaces.Core": "5.1.0",
-          "ServiceStack.Text.Core": "5.1.0",
-          "System.ComponentModel.Primitives": "4.3.0",
-          "System.Data.Common": "4.3.0",
-          "System.Dynamic.Runtime": "4.3.0",
-          "System.Net.NetworkInformation": "4.3.0",
-          "System.Net.Primitives": "4.3.0",
-          "System.Reflection.TypeExtensions": "4.3.0",
-          "System.Runtime.Serialization.Primitives": "4.3.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/ServiceStack.Common.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/ServiceStack.Common.dll": {}
-        }
-      },
-      "ServiceStack.Interfaces.Core/5.1.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Runtime": "4.3.0",
-          "System.Runtime.Serialization.Primitives": "4.3.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/ServiceStack.Interfaces.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/ServiceStack.Interfaces.dll": {}
-        }
-      },
-      "ServiceStack.Redis.Core/5.1.0": {
-        "type": "package",
-        "dependencies": {
-          "ServiceStack.Common.Core": "5.1.0",
-          "System.Collections.NonGeneric": "4.3.0",
-          "System.Collections.Specialized": "4.3.0",
-          "System.Data.Common": "4.3.0",
-          "System.Net.NameResolution": "4.3.0",
-          "System.Net.Security": "4.3.1",
-          "System.Threading.Thread": "4.3.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/ServiceStack.Redis.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/ServiceStack.Redis.dll": {}
-        }
-      },
-      "ServiceStack.Text.Core/5.1.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.CSharp": "4.4.0",
-          "Microsoft.Extensions.Primitives": "2.0.0",
-          "System.Runtime": "4.3.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/ServiceStack.Text.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/ServiceStack.Text.dll": {}
-        }
-      },
       "SQLitePCLRaw.bundle_green/1.1.7": {
         "type": "package",
         "dependencies": {
@@ -3422,25 +3356,6 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Console.dll": {}
-        }
-      },
-      "System.Data.Common/4.3.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Collections": "4.3.0",
-          "System.Globalization": "4.3.0",
-          "System.IO": "4.3.0",
-          "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Runtime.Extensions": "4.3.0",
-          "System.Text.RegularExpressions": "4.3.0",
-          "System.Threading.Tasks": "4.3.0"
-        },
-        "compile": {
-          "ref/netstandard1.2/System.Data.Common.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.2/System.Data.Common.dll": {}
         }
       },
       "System.Data.SqlClient/4.4.3": {
@@ -4000,7 +3915,7 @@
           "ref/netstandard1.3/System.Net.Primitives.dll": {}
         }
       },
-      "System.Net.Security/4.3.1": {
+      "System.Net.Security/4.3.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -8242,54 +8157,6 @@
         "version.txt"
       ]
     },
-    "ServiceStack.Common.Core/5.1.0": {
-      "sha512": "9Rr6WT1eZfahWOhKVM8fxeXxrlfLnQf54lbgK4o5ogAn0eIWD628VWeCetTyUiPrgkM+Y1tN26AehfXJN77isQ==",
-      "type": "package",
-      "path": "servicestack.common.core/5.1.0",
-      "files": [
-        "lib/netstandard2.0/ServiceStack.Common.deps.json",
-        "lib/netstandard2.0/ServiceStack.Common.dll",
-        "lib/netstandard2.0/ServiceStack.Common.xml",
-        "servicestack.common.core.5.1.0.nupkg.sha512",
-        "servicestack.common.core.nuspec"
-      ]
-    },
-    "ServiceStack.Interfaces.Core/5.1.0": {
-      "sha512": "WARXZTwY7olihNEIF4U3vWJ4khlk5C6HCdpg3/wyci5j/ztUONWHlQTXJfY63sHR0i1oObCNiL6xrKfUpLHj7w==",
-      "type": "package",
-      "path": "servicestack.interfaces.core/5.1.0",
-      "files": [
-        "lib/netstandard2.0/ServiceStack.Interfaces.deps.json",
-        "lib/netstandard2.0/ServiceStack.Interfaces.dll",
-        "lib/netstandard2.0/ServiceStack.Interfaces.xml",
-        "servicestack.interfaces.core.5.1.0.nupkg.sha512",
-        "servicestack.interfaces.core.nuspec"
-      ]
-    },
-    "ServiceStack.Redis.Core/5.1.0": {
-      "sha512": "HUzKGMeobGAMF9irK65vgPvsohISvcxAx1623nSA84faTzWUS4yk249pbN/cIHB9XxULV5lr84wD9yJS5KeBEw==",
-      "type": "package",
-      "path": "servicestack.redis.core/5.1.0",
-      "files": [
-        "lib/netstandard2.0/ServiceStack.Redis.deps.json",
-        "lib/netstandard2.0/ServiceStack.Redis.dll",
-        "lib/netstandard2.0/ServiceStack.Redis.xml",
-        "servicestack.redis.core.5.1.0.nupkg.sha512",
-        "servicestack.redis.core.nuspec"
-      ]
-    },
-    "ServiceStack.Text.Core/5.1.0": {
-      "sha512": "7UIH4QGavWCLV4dzSELe3Bv+cgIMyQPEjlK2Py38Ym+xcVCiDC2dvouQ+gW9jsYF+5rROHCNFLv/HJhf7IbDYA==",
-      "type": "package",
-      "path": "servicestack.text.core/5.1.0",
-      "files": [
-        "lib/netstandard2.0/ServiceStack.Text.deps.json",
-        "lib/netstandard2.0/ServiceStack.Text.dll",
-        "lib/netstandard2.0/ServiceStack.Text.xml",
-        "servicestack.text.core.5.1.0.nupkg.sha512",
-        "servicestack.text.core.nuspec"
-      ]
-    },
     "SQLitePCLRaw.bundle_green/1.1.7": {
       "sha512": "Kw+n4CUhQ8S4YAPmpRUldO8S7c4LU7HHukJF0v5Sfggf8Ia9YVdIh0dYkMvKvS+DTX+OBORSMqPM0CGfAzFtVA==",
       "type": "package",
@@ -8995,55 +8862,6 @@
         "ref/xamarinwatchos10/_._",
         "system.console.4.3.0.nupkg.sha512",
         "system.console.nuspec"
-      ]
-    },
-    "System.Data.Common/4.3.0": {
-      "sha512": "lm6E3T5u7BOuEH0u18JpbJHxBfOJPuCyl4Kg1RH10ktYLp5uEEE1xKrHW56/We4SnZpGAuCc9N0MJpSDhTHZGQ==",
-      "type": "package",
-      "path": "system.data.common/4.3.0",
-      "files": [
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net451/System.Data.Common.dll",
-        "lib/netstandard1.2/System.Data.Common.dll",
-        "lib/portable-net451+win8+wp8+wpa81/System.Data.Common.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net451/System.Data.Common.dll",
-        "ref/netstandard1.2/System.Data.Common.dll",
-        "ref/netstandard1.2/System.Data.Common.xml",
-        "ref/netstandard1.2/de/System.Data.Common.xml",
-        "ref/netstandard1.2/es/System.Data.Common.xml",
-        "ref/netstandard1.2/fr/System.Data.Common.xml",
-        "ref/netstandard1.2/it/System.Data.Common.xml",
-        "ref/netstandard1.2/ja/System.Data.Common.xml",
-        "ref/netstandard1.2/ko/System.Data.Common.xml",
-        "ref/netstandard1.2/ru/System.Data.Common.xml",
-        "ref/netstandard1.2/zh-hans/System.Data.Common.xml",
-        "ref/netstandard1.2/zh-hant/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/System.Data.Common.dll",
-        "ref/portable-net451+win8+wp8+wpa81/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/de/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/es/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/fr/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/it/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/ja/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/ko/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/ru/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/zh-hans/System.Data.Common.xml",
-        "ref/portable-net451+win8+wp8+wpa81/zh-hant/System.Data.Common.xml",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.data.common.4.3.0.nupkg.sha512",
-        "system.data.common.nuspec"
       ]
     },
     "System.Data.SqlClient/4.4.3": {
@@ -10518,10 +10336,10 @@
         "system.net.primitives.nuspec"
       ]
     },
-    "System.Net.Security/4.3.1": {
-      "sha512": "qYnDntmrrHXUAhA+v2Kve8onMjJ2ZryQvx7kjGhW88c0IgA9B+q2M8b3l76HFBeotufDbAJfOvLEP32PS4XIKA==",
+    "System.Net.Security/4.3.0": {
+      "sha512": "IgJKNfALqw7JRWp5LMQ5SWHNKvXVz094U6wNE3c1i8bOkMQvgBL+MMQuNt3xl9Qg9iWpj3lFxPZEY6XHmROjMQ==",
       "type": "package",
-      "path": "system.net.security/4.3.1",
+      "path": "system.net.security/4.3.0",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -10554,7 +10372,7 @@
         "runtimes/win/lib/net46/System.Net.Security.dll",
         "runtimes/win/lib/netstandard1.3/System.Net.Security.dll",
         "runtimes/win7/lib/netcore50/_._",
-        "system.net.security.4.3.1.nupkg.sha512",
+        "system.net.security.4.3.0.nupkg.sha512",
         "system.net.security.nuspec"
       ]
     },
@@ -13269,7 +13087,6 @@
       "Microsoft.AspNetCore.All >= 2.0.6",
       "Microsoft.NETCore.App >= 2.0.0",
       "MongoDB.Driver >= 2.7.0",
-      "ServiceStack.Redis.Core >= 5.1.0",
       "jQuery >= 3.3.1"
     ]
   },
@@ -13326,10 +13143,6 @@
           "MongoDB.Driver": {
             "target": "Package",
             "version": "[2.7.0, )"
-          },
-          "ServiceStack.Redis.Core": {
-            "target": "Package",
-            "version": "[5.1.0, )"
           },
           "jQuery": {
             "target": "Package",
