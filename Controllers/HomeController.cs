@@ -20,23 +20,27 @@ using MongoDB.Bson;
 using ServiceStack.Redis;
 
 using MongoDB.Driver.Core;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace WebApplication3.Controllers
 {
     public class HomeController : Controller
     {
         private readonly AppSettings _appSettings;
+        private readonly IDistributedCache _distributedCache;
         public string url;
-        public HomeController(IOptions<AppSettings> appSettings)
+    
+        public HomeController(IOptions<AppSettings> appSettings )
         {
             _appSettings = appSettings.Value;
             url = "http://" + _appSettings.node_api + ":" + _appSettings.node_port + "/";
+            
         }
         public IActionResult Index()
         {
             try
             {
-                var manager = new RedisManagerPool("localhost:6379");
+                var manager = new RedisManagerPool("127.0.0.1:6379");
                 var data = HttpContext.Session.GetString("contractAddress");
                 if (data == null)
                 {
@@ -44,7 +48,7 @@ namespace WebApplication3.Controllers
                     {
                         string contract;
                         contract = client.Get<string>("ContractAddress");
-                        if (contract != null)
+                    if (contract != null)
                         {
                             HttpContext.Session.SetString("contractAddress", contract);
                             ViewBag.enable = "false";
@@ -57,9 +61,6 @@ namespace WebApplication3.Controllers
                 {
                     ViewBag.enable = "false";
                 }
-
-           
-
 
             }
             catch(Exception ex)
@@ -113,11 +114,11 @@ namespace WebApplication3.Controllers
                 add.address = ob.response.Contract;
 
 
-                var manager = new RedisManagerPool("localhost:6379");
+                var manager = new RedisManagerPool("127.0.0.1:6379");
                 using (var clientOps = manager.GetClient())
                 {
-                    clientOps.Set("contractAddress", ob.response.Contract);
-                    HttpContext.Session.SetString("contractAddress", ob.response.Contract);
+                 clientOps.Set("contractAddress", ob.response.Contract);
+                 HttpContext.Session.SetString("contractAddress", ob.response.Contract);
                 }
 
                 HttpContext.Session.SetString("contractAddress", ob.response.Contract);
@@ -145,11 +146,11 @@ namespace WebApplication3.Controllers
 
                 var manager = new RedisManagerPool("localhost:6379");
 
-                using (var client = manager.GetClient())
+                               using (var client = manager.GetClient())
+                               {
+                if (client.Get<string>("ContractAddress") != null)          
                 {
-                    if (client.Get<string>("ContractAddress") != null)
-                    {
-                        var contract = client.Get<string>("ContractAddress").Split(";");
+                       var contract = client.Get<string>("ContractAddress").Split(";");
                         var data_hash = client.Get<string>("HashofBlockchainData").Split(";");
                         var block_hash = client.Get<string>("TransactionHash").Split(";");
 
@@ -214,9 +215,10 @@ namespace WebApplication3.Controllers
                 _Hashes.transactionHash = accountobj.Transaction_hash;
 
 
-                var manager = new RedisManagerPool("localhost:6379");
+                var manager = new RedisManagerPool("127.0.0.1:6379");
                 using (var clientOps = manager.GetClient())
                 {
+
                     var contract = clientOps.Get<string>("ContractAddress");
                     string c;
                     if (contract == null)

@@ -29,10 +29,6 @@ namespace WebApplication3
             services.AddSession();
             var appSettings = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettings);
-            //services.AddDistributedRedisCache(option => {
-              //  option.Configuration = "127.0.0.1:6379";
-               //s option.InstanceName = "master";
-           // });
 
         }
 
