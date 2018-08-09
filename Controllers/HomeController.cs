@@ -41,7 +41,7 @@ namespace WebApplication3.Controllers
             try
             {
 
-                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("localhost:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("54.201.240.54:6379");
 
                 IDatabase db = redis.GetDatabase();
 
@@ -115,7 +115,7 @@ namespace WebApplication3.Controllers
                 add.address = ob.response.Contract;
 
 
-                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("localhost:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("54.201.240.54:6379");
 
                 IDatabase db = redis.GetDatabase();
                 db.StringSet("contractAddress", ob.response.Contract);
@@ -142,7 +142,7 @@ namespace WebApplication3.Controllers
             try
             {
 
-                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("localhost:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("54.201.240.54:6379");
 
                 IDatabase db = redis.GetDatabase();
 
@@ -218,7 +218,7 @@ namespace WebApplication3.Controllers
                 _Hashes.transactionHash = accountobj.Transaction_hash;
 
 
-                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("localhost:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("54.201.240.54:6379");
                 IDatabase db = redis.GetDatabase();
      
                 string contract = db.StringGet("contractAddress");
