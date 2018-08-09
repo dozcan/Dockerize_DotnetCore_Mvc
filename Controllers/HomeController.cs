@@ -41,7 +41,7 @@ namespace WebApplication3.Controllers
             try
             {
 
-                var manager = new RedisManagerPool("redis");
+                var manager = new RedisManagerPool("redis://localhost:6379");
                 var data = HttpContext.Session.GetString("contractAddress");
                 if (data == null)
                 {
@@ -115,7 +115,7 @@ namespace WebApplication3.Controllers
                 add.address = ob.response.Contract;
 
 
-                var manager = new RedisManagerPool("redis");
+                var manager = new RedisManagerPool("redis://localhost:6379");
                 using (var clientOps = manager.GetClient())
                 {
                  clientOps.Set("contractAddress", ob.response.Contract);
@@ -145,9 +145,9 @@ namespace WebApplication3.Controllers
             try
             {
 
-                var manager = new RedisManagerPool("redis");
+                var manager = new RedisManagerPool("redis://localhost:6379");
 
-                               using (var client = manager.GetClient())
+                using (var client = manager.GetClient())
                                {
                 if (client.Get<string>("ContractAddress") != null)          
                 {
@@ -216,7 +216,7 @@ namespace WebApplication3.Controllers
                 _Hashes.transactionHash = accountobj.Transaction_hash;
 
 
-                var manager = new RedisManagerPool("redis");
+                var manager = new RedisManagerPool("127.0.0.1:6379");
                 using (var clientOps = manager.GetClient())
                 {
 

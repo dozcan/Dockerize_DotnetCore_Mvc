@@ -26,7 +26,7 @@ namespace WebApplication3
            
             services.AddMvc();
             services.AddMemoryCache();
-            
+            services.AddSession();
             var appSettings = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettings);
         }
