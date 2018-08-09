@@ -9,6 +9,7 @@ services:
         depends_on:
             - redis
     redis:
-        image: redis
+        image: redis:4.0.5-alpine
+        host: redis
         ports:
             - "6379:6379"
