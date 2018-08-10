@@ -151,7 +151,7 @@ namespace WebApplication3.Controllers
                 if (_contract != null)          
                 {
                         string contractArr = db.StringGet("contractAddress");
-                        var contract = contractArr.Split(";");
+               
                         string data_hashArr = db.StringGet("data_hash");
                         var data_hash = data_hashArr.Split(";");
                         string block_hashArr = db.StringGet("block_hash");
@@ -162,7 +162,7 @@ namespace WebApplication3.Controllers
                         for (int i = 0; i < len; i++)
                         {
                             var _Hashes = new Hashes();
-                            _Hashes.contractAddress = contract[i];
+                        _Hashes.contractAddress = _contract;
                             _Hashes.hashofBlockchainData = data_hash[i];
                             _Hashes.transactionHash = block_hash[i];
                             arr.Add(_Hashes);
