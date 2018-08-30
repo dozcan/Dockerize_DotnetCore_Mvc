@@ -10,31 +10,36 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <br />
-    <br />
-    <div class="container">
-        @ViewData["err"];
-        <address><strong><h2>Veriniz Blockchain üzerine gönderilmiştir</h2></strong></address>
-    </div>
+    <div class="row">
+        <br />
+        <br />
+        <div class="container">
+            @ViewData["err"];
+            <address><strong><h2>Veriniz Blockchain üzerine gönderilmiştir</h2></strong></address>
+        </div>
 
 
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Ethereum Hesabı </th>
-                    <th>Veri Hash Değeri</th>
-                    <th>İşlem Hash Değeri</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@Model.Account</td>
-                    <td>@Model.Data_hash</td>
-                    <td>@Model.Transaction_hash</td>
-                </tr>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ethereum Hesabı </th>
+                        <th>Veri Hash Değeri</th>
+                        <th>İşlem Hash Değeri</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.Account</td>
+                        <td>@Model.Data_hash</td>
+                        <td>@Model.Transaction_hash</td>
+                    </tr>
 
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <div class="row">
+            <div style="text-align:center"><img src="https://s3-us-west-2.amazonaws.com/blockchain-img/crypto-zb.png"></div>
+        </div>
 </body></html>

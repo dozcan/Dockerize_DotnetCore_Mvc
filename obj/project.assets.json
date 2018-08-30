@@ -13097,11 +13097,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\doga\\source\\repos\\WebApplication3\\WebApplication3\\WebApplication3.csproj",
+      "projectUniqueName": "C:\\frontend\\Dockerize_DotnetCore_Mvc\\WebApplication3.csproj",
       "projectName": "WebApplication3",
-      "projectPath": "C:\\Users\\doga\\source\\repos\\WebApplication3\\WebApplication3\\WebApplication3.csproj",
+      "projectPath": "C:\\frontend\\Dockerize_DotnetCore_Mvc\\WebApplication3.csproj",
       "packagesPath": "C:\\Users\\doga\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\doga\\source\\repos\\WebApplication3\\WebApplication3\\obj\\",
+      "outputPath": "C:\\frontend\\Dockerize_DotnetCore_Mvc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

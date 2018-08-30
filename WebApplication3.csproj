@@ -29,6 +29,7 @@
   <ItemGroup>
     <Folder Include="data\" />
     <Folder Include="mongo\" />
+    <Folder Include="img\" />
   </ItemGroup>
 
 </Project>

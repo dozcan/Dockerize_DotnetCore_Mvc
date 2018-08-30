@@ -1,14 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-
- 
-
 </head>
-<body>
+
+<body style="background-color:#ffffff;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -26,12 +25,14 @@
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="container body-content"  >
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; 2018 - Ziraat Teknoloji Private Blockchain</p>
         </footer>
+       
+
     </div>
 
     <environment include="Development">

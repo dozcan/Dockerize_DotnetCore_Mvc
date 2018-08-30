@@ -13,36 +13,39 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+    <div class="row">
+        <br />
+        <br />
+        <div class="container">
+            <address><strong><h2>Akıllı sözleşme blockchain üzerine yüklendi...</h2></strong></address>
+        </div>
+        
 
-    <br />
-    <br />
-    <div class="container">
-        <address><strong><h2>Akıllı sözleşme blockchain üzerine yüklendi...</h2></strong></address>
-    </div>
-    <br />
-    <br />
-
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Ethereum Hesabı</th>
-                    <th>Sözleşme Adresi</th>
-                    <th>Hesabın Bakiyesi</th>
-                    <th>Blok Gas Limit Değeri</th>
-                    <th>Aktif Üretilmiş Blok Sayısı</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@Model.Account</td>
-                    <td>@Model.Contract</td>
-                    <td>@Model.Balance</td>
-                    <td>@Model.Gas</td>
-                    <td>@Model.Block</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ethereum Hesabı</th>
+                        <th>Sözleşme Adresi</th>
+                        <th>Hesabın Bakiyesi</th>
+                        <th>Blok Gas Limit Değeri</th>
+                        <th>Aktif Üretilmiş Blok Sayısı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.Account</td>
+                        <td>@Model.Contract</td>
+                        <td>@Model.Balance</td>
+                        <td>@Model.Gas</td>
+                        <td>@Model.Block</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <div class="row">
+            <div style="text-align:center"><img src="https://s3-us-west-2.amazonaws.com/blockchain-img/crypto-zb.png"></div>
+        </div>
 </body></html>
 

@@ -8,41 +8,47 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <STYLE>
+    .mainDiv { background-image: url("https://s3-us-west-2.amazonaws.com/blockchain-img/crypto-zb.png"); }
+    </STYLE>
 </head>
 <body>
     <br />
     <br />
+    <br />
+    <div class="row">
 
-    <div class="container">
-        <address><strong><h2>Blockchain üzerindeki hash değerleriniz...</h2></strong></address>
-    </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Veri Hash Değeri </th>
-                    <th>Transaction Hash Değeri</th>
-                    <th>Akıllı Sözleşme Adresi</th>
-                    <th>Sorgulayın</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(@ViewBag.count == "OP")
-                {
-                    @foreach (var hash in @Model)
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Veri Hash Değeri </th>
+                        <th>Transaction Hash Değeri</th>
+                        <th>Akıllı Sözleşme Adresi</th>
+                        <th>Sorgulayın</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (@ViewBag.count == "OP")
                     {
-                        <tr>
-                            <td>@hash.hashofBlockchainData</td>
-                            <td>@hash.transactionHash</td>
-                            <td>@hash.contractAddress</td>
-                            <td>
-                                <a href='@Url.Action("GetBlockChainData", "Home", new { contractAddress = @hash.contractAddress, hashofBlockchainData = @hash.hashofBlockchainData })'>Getir</a>
-                            </td>
-                        </tr>
+                        @foreach (var hash in @Model)
+                        {
+                            <tr>
+                                <td>@hash.hashofBlockchainData</td>
+                                <td>@hash.transactionHash</td>
+                                <td>@hash.contractAddress</td>
+                                <td>
+                                    <a href='@Url.Action("GetBlockChainData", "Home", new { contractAddress = @hash.contractAddress, hashofBlockchainData = @hash.hashofBlockchainData })'>Getir</a>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
+    </div>
+    <div class="row">
+        <div style="text-align:center"><img src="https://s3-us-west-2.amazonaws.com/blockchain-img/crypto-zb.png"></div>
+    </div>
 </body></html>
