@@ -29,19 +29,20 @@ namespace WebApplication3.Controllers
         private readonly AppSettings _appSettings;
         private readonly IDistributedCache _distributedCache;
         public string url;
+        public string redis_ip;
     
         public HomeController(IOptions<AppSettings> appSettings )
         {
             _appSettings = appSettings.Value;
             url = "http://" + _appSettings.node_api + ":" + _appSettings.node_port + "/";
-            
+            redis_ip = _appSettings.redis_ip;
         }
         public IActionResult Index()
         {
             try
             {
 
-                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("54.214.69.136:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect(redis_ip + ": 6379");
 
                 IDatabase db = redis.GetDatabase();
 
@@ -115,7 +116,7 @@ namespace WebApplication3.Controllers
                 add.address = ob.response.Contract;
 
 
-                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("54.214.69.136:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect(redis_ip + ": 6379");
 
                 IDatabase db = redis.GetDatabase();
                 db.StringSet("contractAddress", ob.response.Contract);
@@ -142,7 +143,7 @@ namespace WebApplication3.Controllers
             try
             {
 
-                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("54.214.69.136:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect(redis_ip + ": 6379");
 
                 IDatabase db = redis.GetDatabase();
 
@@ -218,7 +219,7 @@ namespace WebApplication3.Controllers
                 _Hashes.transactionHash = accountobj.Transaction_hash;
 
 
-                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect("54.214.69.136:6379");
+                var redis = StackExchange.Redis.ConnectionMultiplexer.Connect(redis_ip + ": 6379");
                 IDatabase db = redis.GetDatabase();
      
                 string contract = db.StringGet("contractAddress");
